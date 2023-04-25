@@ -60,56 +60,66 @@ export default function HomePage() {
     .catch(err => console.log(err))
   }
   
-calcularSaldo()
+calcularSaldo();
 
-  return (
-    <HomeContainer>
-      <Header>
-        <h1>Olá, {nomeUsuario}</h1>
-        <BiExit onClick={logout}/>
-      </Header>
+return (
+  <HomeContainer>
+    <Header>
+      <h1>Olá, {nomeUsuario}</h1>
+      <BiExit onClick={logout} />
+    </Header>
 
-      <TransactionsContainer>
-        <ul>
-        {transacoesUsuario.length !== 0 && transacoesUsuario.map(transacao =>(
-          <ListItemContainer>
-            <div>
-              <span>{transacao.dia}</span>
-              <strong>{transacao.descricao}</strong>
-            </div>
-            <Value color={transacao.tipo === 'entrada' ? "positivo" : "negativo"}>{Number(transacao.valor).toFixed(2).replace('.', ',')}</Value>
-          </ListItemContainer>
-      ))}
-        </ul>
-          {transacoesUsuario.length === 0 && 
-          <div className="vazio">
-            Não há registros de entrada ou saída
-          </div>}
-        {transacoesUsuario.length !== 0 && 
+    <TransactionsContainer>
+      <ul>
+        {transacoesUsuario.length !== 0 &&
+          transacoesUsuario.map((transacao) => (
+            <ListItemContainer key={transacao._id}>
+              <div>
+                <span>{transacao.dia}</span>
+                <strong>{transacao.descricao}</strong>
+              </div>
+              <Value
+                color={transacao.tipo === "entrada" ? "positivo" : "negativo"}
+              >
+                {Number(transacao.valor).toFixed(2).replace(".", ",")}
+              </Value>
+            </ListItemContainer>
+          ))}
+      </ul>
+      {transacoesUsuario.length === 0 && (
+        <div className="vazio">Não há registros de entrada ou saída</div>
+      )}
+      {transacoesUsuario.length !== 0 && (
         <article>
           <strong>Saldo</strong>
-          <Value color={calcularSaldo() >= 0 ? "positivo" : 'negativo'}>{Math.abs(calcularSaldo()).toFixed(2).replace('.', ',')}</Value>
-        </article>}
-      </TransactionsContainer>
+          <Value color={calcularSaldo() >= 0 ? "positivo" : "negativo"}>
+            {Math.abs(calcularSaldo()).toFixed(2).replace(".", ",")}
+          </Value>
+        </article>
+      )}
+    </TransactionsContainer>
 
-
-      <ButtonsContainer>
-        <Link to='/nova-transacao/entrada'>
+    <ButtonsContainer>
+      <Link to="/nova-transacao/entrada">
         <button>
           <AiOutlinePlusCircle />
-          <p>Nova <br /> entrada</p>
+          <p>
+            Nova <br /> entrada
+          </p>
         </button>
-        </Link>
-        <Link to='/nova-transacao/saida'>
+      </Link>
+      <Link to="/nova-transacao/saida">
         <button>
           <AiOutlineMinusCircle />
-          <p>Nova <br />saída</p>
+          <p>
+            Nova <br />
+            saída
+          </p>
         </button>
-        </Link>
-      </ButtonsContainer>
-
-    </HomeContainer>
-  )
+      </Link>
+    </ButtonsContainer>
+  </HomeContainer>
+);
 }
 
 const HomeContainer = styled.div`
