@@ -24,23 +24,31 @@ export default function TransactionsPage() {
 
     if(!valor || !descricao) return alert('Por favor, preencha todos os campos')
 
-    const valorFormatado = valor.replace('R$', '').replace(',', '')
+    const valorFormatado = valor.replace("R$", "").replaceAll(",", "");
 
-    axios.post(`${process.env.REACT_APP_API_URL}/transacao/${params.tipo}`, 
-    {
-      valor: valorFormatado, 
-      descricao
-    },
-   { 
-    headers: {
-      Authorization: `Bearer ${token}`
-    }
-  }
-    ).then(res => {
-      alert('Transação realizada com sucesso!')
-      navigate('/home')
-    })
-    .catch(err => alert('A transação não pôde ser completada. Por favor, tente novamente após alguns minutos.'))
+    axios
+      .post(
+        `${process.env.REACT_APP_API_URL}/transacao/${params.tipo}`,
+        {
+          valor: valorFormatado,
+          descricao,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      .then((res) => {
+        alert("Transação realizada com sucesso!");
+        navigate("/home");
+      })
+      .catch((err) => {
+        alert(
+          "A transação não pôde ser completada. Por favor, tente novamente após alguns minutos."
+        );
+        console.log(err.response.data);
+      });
   }
   
   return (
